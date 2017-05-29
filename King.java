@@ -2,20 +2,16 @@
 // King: The king piece
 public class King extends ChessPiece {
 
-  King( int c ) {
-    super.color  = c;
-    super.symbol = "\u2654";
+  String[] chars = {"♚","♔"};
+  boolean hasMoved = false;
+
+  King( int color ) {
+    super.color = color;
+    super.symbol = chars[color];
   }
 
-  @Override
-  boolean validMove( Square a, Square b ) {
 
-    int[2] orig = a.pos;
-    int[2] dest = b.pos;
-    if( orig.x == dest.x && orig.y == dest.y )         return false;
-    if( dest.x - orig.x > 1 || dest.y - origin.y > 1 ) return false; // TODO Makee Math.abs
-    if( !super.validMove )                             return false;
-
+  boolean validMove( ChessSquare a, ChessSquare b ) {
     return true;
   }
 
