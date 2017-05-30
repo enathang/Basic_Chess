@@ -10,9 +10,9 @@ public class Pawn extends ChessPiece {
     super.symbol = chars[color];
   }
 
-  
-  boolean validMove( ChessSquare a, ChessSquare b ) {
 
+  boolean validMove( ChessSquare a, ChessSquare b ) {
+    return true;
   }
 
 }

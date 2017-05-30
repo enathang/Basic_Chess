@@ -16,6 +16,21 @@ public class ChessBoard {
 
   }
 
+  // TODO
+  boolean isGameOver() {
+    return false;
+  }
+
+  // TODO
+  void movePiece( String move ) {
+
+  }
+
+  // TODO
+  ChessSquare getPieceByLocation( String s ) {
+    ChessSquare a = new ChessSquare();
+    return a;
+  }
 
   // displayBoard(): prints out the current game board to the console
   void displayBoard() {
