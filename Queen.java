@@ -2,7 +2,8 @@
 // Queen: The queen piece
 public class Queen extends ChessPiece {
 
-  String[] chars = {"♛","♕"};
+  String[] chars = {"WQ","BQ"};
+  // String[] chars = {"♛","♕"}; ONLY USE IF UNICODE IS SUPPORTED
   boolean hasMoved = false;
 
   Queen( int color ) {

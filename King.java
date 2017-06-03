@@ -2,7 +2,8 @@
 // King: The king piece
 public class King extends ChessPiece {
 
-  String[] chars = {"♚","♔"};
+  String[] chars = {"WK","BK"};
+  // String[] chars = {"♚","♔"}; ONLY USE IF UNICODE IS SUPPORTED
   boolean hasMoved = false;
 
   King( int color ) {

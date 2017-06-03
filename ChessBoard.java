@@ -9,7 +9,7 @@ public class ChessBoard {
   ChessBoard() {
     for( int i=0 ; i<8; i++ ) { // Column
       for( int j=0 ; j<8 ; j++ ) { // Row
-        board[i][j] = new ChessSquare();
+        board[i][j] = new ChessSquare( i, j );
       }
     }
 
@@ -17,34 +17,55 @@ public class ChessBoard {
   }
 
   // TODO
-  boolean isGameOver() {
+  boolean isCheckMate() {
     return false;
   }
 
-  // TODO
-  void movePiece( String move ) {
+  // movePiece: Takes in two ChessSquares and moves the piece from the first to the second
+  void movePiece( ChessSquare[] move ) {
+    ChessSquare orig = move[0];
+    ChessSquare dest = move[1];
+
+    dest.piece = orig.piece;
+    orig.piece = null;
 
   }
 
-  // TODO
+  // getPieceByLocation: returns the ChessSquare at the location
+  //                     (might need to change main.indexOfCharInArray)
   ChessSquare getPieceByLocation( String s ) {
-    ChessSquare a = new ChessSquare();
-    return a;
+
+    char[] location = s.toCharArray();
+    char[] validColumns = {'A','B','C','D','E','F','G','H'};
+    char[] validRows    = {'1','2','3','4','5','6','7','8'};
+
+    int x = main.indexOfCharInArray(validColumns, location[0]);
+    int y = main.indexOfCharInArray(validRows, location[1]);
+
+    ChessSquare square = board[x][y];
+
+    return square;
   }
 
   // displayBoard(): prints out the current game board to the console
   void displayBoard() {
 
-    for( int i=0 ; i<8 ; i++ ) {
-      for( int j=0 ; j<8 ; j++ ) {
 
-        String symbol = " ";
-        if( board[i][j].piece != null ) {symbol = board[i][j].piece.symbol;}
+    for( int i=7 ; i>-1 ; i-- ) {
+
+      System.out.print( "["+(i+1)+"]" );
+
+      for( int j=7 ; j>-1 ; j-- ) {
+
+        String symbol = "  ";
+        if( board[j][i].piece != null ) {symbol = board[j][i].piece.symbol;} // i and j are reversed
         System.out.print( "["+symbol+"]" );
 
       }
       System.out.print("\n");
     }
+
+    System.out.println( "[ ][A ][B ][C ][D ][E ][F ][G ][H ]" );
 
   }
 

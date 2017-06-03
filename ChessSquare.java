@@ -4,7 +4,13 @@ public class ChessSquare {
 
   boolean open = true;
   ChessPiece piece = null;
-  int[] pos = {1,1};
+  int row;
+  int col;
+
+  ChessSquare (int x, int y) {
+    row = x;
+    col = y;
+  }
 
   void setPiece(ChessPiece p) {
     piece = p;

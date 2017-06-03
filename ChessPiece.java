@@ -6,10 +6,8 @@ public class ChessPiece {
   String symbol; // Ascii character for that piece
 
   boolean validMove( ChessSquare a, ChessSquare b ) {
-    int[] orig = a.pos;
-    int[] dest = b.pos;
 
-    if ( orig[0] == dest[0] && orig[1] == dest[1] ) return false; // Origin and destination are the same
+    if ( a.col == b.col && a.row == b.row ) return false; // Origin and destination are the same
 
     return true;
   }

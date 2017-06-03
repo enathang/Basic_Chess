@@ -1,7 +1,9 @@
 
 // Knight: The knight piece
 public class Knight extends ChessPiece {
-  String[] chars = {"♞","♘"};
+
+  String[] chars = {"WN","BN"};
+  // String[] chars = {"♞","♘"}; ONLY USE IF UNICODE IS SUPPORTED
   boolean hasMoved = false;
 
   Knight( int color ) {
@@ -13,5 +15,5 @@ public class Knight extends ChessPiece {
   boolean validMove( ChessSquare a, ChessSquare b ) {
     return true;
   }
-  
+
 }

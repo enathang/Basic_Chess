@@ -2,7 +2,8 @@
 // Rook: The rook piece
 public class Rook extends ChessPiece {
 
-  String[] chars = {"♜","♖"};
+  String[] chars = {"WR","BR"};
+  // String[] chars = {"♜","♖"}; ONLY USE IF UNICODE IS SUPPORTED
   boolean hasMoved = false;
 
   Rook( int color ) {
