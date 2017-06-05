@@ -31,12 +31,12 @@ public class ChessBoard {
 
   }
 
-  // getPieceByLocation: returns the ChessSquare at the location
+  // getSquareByLocation: returns the ChessSquare at the location
   //                     (might need to change main.indexOfCharInArray)
-  ChessSquare getPieceByLocation( String s ) {
+  ChessSquare getSquareByLocation( String s ) {
 
     char[] location = s.toCharArray();
-    char[] validColumns = {'A','B','C','D','E','F','G','H'};
+    char[] validColumns = {'H','G','F','E','D','C','B','A'};
     char[] validRows    = {'1','2','3','4','5','6','7','8'};
 
     int x = main.indexOfCharInArray(validColumns, location[0]);

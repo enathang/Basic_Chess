@@ -8,8 +8,8 @@ public class ChessSquare {
   int col;
 
   ChessSquare (int x, int y) {
-    row = x;
-    col = y;
+    col = x;
+    row = y;
   }
 
   void setPiece(ChessPiece p) {

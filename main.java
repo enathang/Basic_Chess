@@ -6,7 +6,7 @@ public class main {
   // indexOfCharInArray: Returns the index of char in array, -1 if not in array
   public static int indexOfCharInArray( char[] array, char a) {
 
-    for ( int i=0 ; i<array.length-1 ; i++ ) {
+    for ( int i=0 ; i<array.length ; i++ ) {
 
       if( a == array[i] ) return i;
 
@@ -67,20 +67,20 @@ public class main {
 
 
   // validChessMove: returns true if the move is legal in chess
-  static boolean allowableChessMove( ChessSquare orig, ChessSquare dest, ChessBoard board ) {
+  static boolean allowableChessMove( ChessSquare orig, ChessSquare dest, int player, ChessBoard board ) {
 
     if ( orig.piece == null ) {
-      System.out.println("There is no piece at origin");
+      System.out.println("Could not find a piece at the square");
       return false;
     }
 
-    if ( !(dest.piece == null) ) {
-      System.out.println("Destination is occupied");
+    if ( orig.piece.color != player ) {
+      System.out.println("Cannot move other player's piece");
       return false;
     }
 
     ChessPiece piece = orig.piece;
-    if ( !piece.validMove( orig, dest ) ) {
+    if ( !piece.validMove( orig, dest, board ) ) {
       System.out.println("Piece cannot move in that way");
       return false;
     }
@@ -94,7 +94,7 @@ public class main {
 
   // getValidUserInput: keeps prompting the user for an input until they enter
   //                    a valid chess move, then returns it
-  static ChessSquare[] getValidUserInput( ChessBoard board ) {
+  static ChessSquare[] getValidUserInput( int player, ChessBoard board ) {
 
     Scanner s = new Scanner(System.in);
 
@@ -105,18 +105,18 @@ public class main {
     boolean allowableChessMove = false;
     String input = "";
 
-    while ( !inputCorrectlyFormatted && !allowableChessMove ) {
+    while ( !inputCorrectlyFormatted || !allowableChessMove ) {
 
-      System.out.println( "Enter a move (ex \"C2, C3\")" );
+      System.out.println( "Enter a move player " + (player+1) + " (ex \"C2, C3\")" );
       input = s.nextLine();
       inputCorrectlyFormatted = isCorrectlyFormatted( input );
 
       if( inputCorrectlyFormatted ) {
 
-        orig = board.getPieceByLocation(input.substring(0,2));
-        dest = board.getPieceByLocation(input.substring(4,6));
+        orig = board.getSquareByLocation(input.substring(0,2));
+        dest = board.getSquareByLocation(input.substring(4,6));
 
-        allowableChessMove = allowableChessMove( orig, dest, board );
+        allowableChessMove = allowableChessMove( orig, dest, player, board );
       }
 
     }
@@ -135,14 +135,16 @@ public class main {
       ChessBoard board = new ChessBoard();
       board.newGame();
       boolean gameOver = false;
+      int player = 0;
 
       // Run game loop
       while( !gameOver ) {
 
         board.displayBoard();
-        ChessSquare[] playerMove = getValidUserInput( board );
+        ChessSquare[] playerMove = getValidUserInput( player, board );
         board.movePiece (playerMove);
         gameOver = board.isCheckMate();
+        player = (player+1)%2;
 
       }
 

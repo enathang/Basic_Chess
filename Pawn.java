@@ -12,13 +12,26 @@ public class Pawn extends ChessPiece {
   }
 
 
-  boolean validMove( ChessSquare a, ChessSquare b ) {
 
-    if ( !super.validMove ( a, b ) ) return false;
-    if ( a.col != b.col ) return false;
-    //check that pawn doesnt move more than 1/2 spaces but differentfor black and white
+  boolean validMove( ChessSquare a, ChessSquare b, ChessBoard board ) {
 
-    return true;
+    if ( color == 0 ) {
+      if ( b.row - a.row < 1 ) return false;
+    }
+
+    if ( color == 1 ) {
+      if ( b.row - a.row > -1) return false;
+    }
+
+    if ( !super.validMove ( a, b, board ) ) return false;
+
+    if ( b.col != a.col && b.piece == null) return false;
+
+    if ( super.validDiagonalMove( a, b, board, 1 ) ) {hasMoved=true; return true;}
+    if ( super.validAdjacentMove( a, b, board, 1 ) && b.piece==null ) {hasMoved=true; return true;}
+    if ( super.validAdjacentMove( a, b, board, 2 ) && b.piece==null && !hasMoved) {hasMoved=true; return true;}
+
+    return false;
   }
 
 }

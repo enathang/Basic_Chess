@@ -12,7 +12,10 @@ public class Bishop extends ChessPiece {
   }
 
 
-  boolean validMove( ChessSquare a, ChessSquare b ) {
-    return true;
+  boolean validMove( ChessSquare a, ChessSquare b, ChessBoard board ) {
+
+    if ( validDiagonalMove( a, b, board, 8) ) return true;
+
+    return false;
   }
 }
