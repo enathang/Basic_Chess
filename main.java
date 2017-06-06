@@ -1,63 +1,76 @@
-
 import java.util.Scanner;
 
 public class main {
 
-  // indexOfCharInArray: Returns the index of char in array, -1 if not in array
-  public static int indexOfCharInArray( char[] array, char a) {
-
-    for ( int i=0 ; i<array.length ; i++ ) {
-
-      if( a == array[i] ) return i;
-
-    }
-
-    return -1;
-
-  }
-
-  // arrayContainsChar: returns true if the array contains the char
-  static boolean arrayContainsChar( char[] array, char a ) {
-
-    if ( indexOfCharInArray ( array, a ) == -1 ) return false;
-
-    return true;
-
-  }
 
 
-  // isValidInput: returns true if the string is formatted correctly
-  static boolean isCorrectlyFormatted( String s ) {
+  /**
+   * Returns the index of the char in a given array, or -1 if not in array.
+   *
+   * @param  a     the char to search for
+   * @param  array the array of chars to search through
+   * @return       the index of the char, or -1 if not found
+   */
+   public static int indexOfCharInArray(char a, char[] array) {
+     for ( int i=0 ; i<array.length ; i++ ) {
+       if( a == array[i] ) return i;
+     }
+
+     return -1;
+   }
+
+   /**
+    * Returns whether the array constains the char.
+    *
+    * @param  a     the char to search for
+    * @param  array the array of chars to search through
+    * @return       whether the char is in the array
+    */
+   static boolean arrayContainsChar(char a, char[] array) {
+     if (indexOfCharInArray (a, array) == -1) return false;
+
+     return true;
+     }
+
+  /**
+   * Returns whether the string is correctly formatted according to
+   * "Row1Col1, Row2Col2" (ex. "C2, C4");
+   *
+   * @param  s the input string to test if correctly formatted
+   * @return   whether the string is correctly formatted or not
+   */
+  static boolean isCorrectlyFormatted(String s) {
     char[] input = s.toCharArray();
     char[] validColumns = {'A','B','C','D','E','F','G','H'};
     char[] validRows    = {'1','2','3','4','5','6','7','8'};
+    int expectedInputSize = 6; // Based on formatting "A1, B2"
 
-    if ( s.length() < 6 ) {
+    if (input.length < expectedInputSize) {
       System.out.println( "Input is too short" );
       return false;
     }
 
-    if( s.length() > 6 ) {
+    if (input.length > expectedInputSize) {
       System.out.println( "Input is too long" );
       return false;
     }
 
-    if( !arrayContainsChar( validColumns, input[0] ) ) {
+    if (!arrayContainsChar(input[0], validColumns)) {
       System.out.println( "Input column 1 not recognized" );
       return false;
     }
 
-    if( !arrayContainsChar( validRows, input[1] ) ) {
+    if (!arrayContainsChar(input[1], validRows)) {
       System.out.println( "Input row 1 not recognized" );
       return false;
     }
 
-    if( !arrayContainsChar( validColumns, input[4] ) ) {
+    if (!arrayContainsChar(input[4], validColumns)) {
       System.out.println( "Input column 2 not recognized" );
       return false;
     }
 
-    if( !arrayContainsChar( validRows, input[5] ) ) {
+    if (!arrayContainsChar(input[5], validRows)) {
       System.out.println( "Input row 2 not recognized" );
       return false;
     }
@@ -66,7 +79,15 @@ public class main {
   }
 
 
-  // validChessMove: returns true if the move is legal in chess
+  /**
+   * Returns whether the move passed is allowed
+   *
+   * @param  orig   the ChessSquare the piece is moved from
+   * @param  dest   the ChessSquare the piece is moved to
+   * @param  player the player whose turn it is
+   * @param  board  the chessBoard that is currently in play
+   * @return        Whether the move is permissible or not
+   */
   static boolean allowableChessMove( ChessSquare orig, ChessSquare dest, int player, ChessBoard board ) {
 
     if ( orig.piece == null ) {
@@ -91,9 +112,15 @@ public class main {
 
   }
 
-
-  // getValidUserInput: keeps prompting the user for an input until they enter
-  //                    a valid chess move, then returns it
+  /**
+   * Keeps prompting the user for a valid input until they enter a valid
+   * chess move, then returns it
+   *
+   * @param player the player whose turn it is
+   * @param board  the ChessBoard currently in play
+   * @return       the valid chess move, composed in an array where the first
+   *               ChessSquare is the origin and the second is the destination
+   */
   static ChessSquare[] getValidUserInput( int player, ChessBoard board ) {
 
     Scanner s = new Scanner(System.in);
@@ -127,8 +154,12 @@ public class main {
 
   }
 
-
-    // main: Start the game and loop through the game loop
+    /**
+     * Starts the game and runs through the game loop
+     *
+     * @param  args Any command line arguments
+     * @return      Ends when the progam is exited
+     */
     public static void main( String[] args ) {
 
       // Create the game
@@ -143,7 +174,7 @@ public class main {
         board.displayBoard();
         ChessSquare[] playerMove = getValidUserInput( player, board );
         board.movePiece (playerMove);
-        gameOver = board.isCheckMate();
+        gameOver = board.isCheckMate(player, board);
         player = (player+1)%2;
 
       }

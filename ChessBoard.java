@@ -1,27 +1,70 @@
-/*
- * All the chess logic
- */
 
 public class ChessBoard {
 
-  ChessSquare[][] board = new ChessSquare[8][8];
+  int boardSize = 8;
+  ChessSquare[][] board = new ChessSquare[boardSize][boardSize];
+  ChessSquare whiteKing; // Keeps track of where the kings are for convenience
+  ChessSquare blackKing;
 
   ChessBoard() {
-    for( int i=0 ; i<8; i++ ) { // Column
-      for( int j=0 ; j<8 ; j++ ) { // Row
-        board[i][j] = new ChessSquare( i, j );
+    for (int i=0; i<boardSize; i++) {
+      for (int j=0; j<boardSize ; j++) {
+        board[i][j] = new ChessSquare(i, j);
       }
     }
-
-
   }
 
   // TODO
-  boolean isCheckMate() {
+  boolean isCheckMate(int player, ChessBoard board) {
+
+    // for each square adjacent to king,
+    //   if valid move and not check return false;
+    // else return true;
+
     return false;
   }
 
-  // movePiece: Takes in two ChessSquares and moves the piece from the first to the second
+  /**
+   * Returns if the player's king is in check
+   *
+   * @param player The player of the king
+   * @param board The current playing board
+   * @return true if the king is currently in check, false otherwise
+   */
+  boolean isCheck(int player, ChessBoard board) {
+
+    ChessSquare king;
+    if (player == 0) {
+      king = whiteKing;
+    } else {
+      king = blackKing;
+    }
+
+    for (int i=0; i<8; i++) {
+      for (int j=0; j<8; j++) {
+
+        ChessSquare sq = board.board[i][j];
+        ChessPiece p = sq.piece;
+
+        if ( p != null ) {
+          if ( p.color != player && p.validMove( sq, king, board ) )
+          return true;
+        }
+
+      }
+    }
+
+    return false;
+
+  }
+
+  /**
+   * Moves the piece from the first ChessSquare to the second
+   *
+   * @param move an array of ChessSquares where the first is the Origin
+   *             and the second is the destination
+   * @return none
+   */
   void movePiece( ChessSquare[] move ) {
     ChessSquare orig = move[0];
     ChessSquare dest = move[1];
@@ -31,52 +74,65 @@ public class ChessBoard {
 
   }
 
-  // getSquareByLocation: returns the ChessSquare at the location
-  //                     (might need to change main.indexOfCharInArray)
-  ChessSquare getSquareByLocation( String s ) {
+  /**
+   * returns the ChessSquare of a string location (ex "C3")
+   *
+   * @param  s the ChessSquare location as a string
+   * @return   the ChessSquare of the string
+   */
+  ChessSquare getSquareByLocation(String s) {
 
     char[] location = s.toCharArray();
     char[] validColumns = {'H','G','F','E','D','C','B','A'};
     char[] validRows    = {'1','2','3','4','5','6','7','8'};
 
-    int x = main.indexOfCharInArray(validColumns, location[0]);
-    int y = main.indexOfCharInArray(validRows, location[1]);
+    int x = main.indexOfCharInArray(location[0], validColumns);
+    int y = main.indexOfCharInArray(location[1], validRows);
 
     ChessSquare square = board[x][y];
 
     return square;
   }
 
-  // displayBoard(): prints out the current game board to the console
+  /**
+   * Prints out the current game board to the console
+   *
+   * @param none
+   * @return none
+   */
   void displayBoard() {
 
+    for (int i=7 ; i>-1 ; i--) {
+      System.out.print( "["+(i+1)+"]" ); // Print out the row number
 
-    for( int i=7 ; i>-1 ; i-- ) {
-
-      System.out.print( "["+(i+1)+"]" );
-
-      for( int j=7 ; j>-1 ; j-- ) {
-
+      for (int j=7; j>-1; j--) {
         String symbol = "  ";
-        if( board[j][i].piece != null ) {symbol = board[j][i].piece.symbol;} // i and j are reversed
+        ChessPiece p = board[j][i].piece;
+        if (p != null) {symbol = p.symbol;} // i and j are reversed
         System.out.print( "["+symbol+"]" );
-
       }
+
       System.out.print("\n");
     }
 
-    System.out.println( "[ ][A ][B ][C ][D ][E ][F ][G ][H ]" );
+    System.out.println( "[ ][A ][B ][C ][D ][E ][F ][G ][H ]" ); // Print out the column letters
 
   }
 
   // newGame(): Sets all the chess pieces in the correct locations
+  /**
+   * Sets all of the chess pieces to their starting locations
+   *
+   * @param none
+   * @return none
+   */
   void newGame() {
 
     board[0][0].setPiece( new Rook  ( 0 ) );                                // First row
     board[1][0].setPiece( new Knight( 0 ) );
     board[2][0].setPiece( new Bishop( 0 ) );
-    board[3][0].setPiece( new Queen ( 0 ) );
-    board[4][0].setPiece( new King  ( 0 ) );
+    board[3][0].setPiece( new King  ( 0 ) );
+    board[4][0].setPiece( new Queen ( 0 ) );
     board[5][0].setPiece( new Bishop( 0 ) );
     board[6][0].setPiece( new Knight( 0 ) );
     board[7][0].setPiece( new Rook  ( 0 ) );
@@ -88,11 +144,14 @@ public class ChessBoard {
     board[0][7].setPiece( new Rook  ( 1 ) );                                // Eighth row
     board[1][7].setPiece( new Knight( 1 ) );
     board[2][7].setPiece( new Bishop( 1 ) );
-    board[3][7].setPiece( new Queen ( 1 ) );
-    board[4][7].setPiece( new King  ( 1 ) );
+    board[3][7].setPiece( new King  ( 1 ) );
+    board[4][7].setPiece( new Queen ( 1 ) );
     board[5][7].setPiece( new Bishop( 1 ) );
     board[6][7].setPiece( new Knight( 1 ) );
     board[7][7].setPiece( new Rook  ( 1 ) );
+
+    whiteKing = board[3][0];
+    blackKing = board[3][7];
 
   }
 

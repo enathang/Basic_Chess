@@ -17,7 +17,15 @@ public class ChessPiece {
 
   }
 
-  // validDiagonalMove: Checks that a and b are diagonal, close enough, and there is no piece in the way
+  /**
+   * Checks that a and b are diagonal, close enough, and there is no piece in the way
+   *
+   * @param a         the origin of the move
+   * @param b         the destination of the move
+   * @param board     the chessboard currently in play
+   * @param numSpaces the number of spaces the piece is allowed to move diagonally (either 1 or 8)
+   * @return          whether the move is valid or not
+   */
   boolean validDiagonalMove( ChessSquare a, ChessSquare b, ChessBoard board, int numSpaces ) {
 
     int numRowsAbs = Math.abs( b.row - a.row );
@@ -40,8 +48,15 @@ public class ChessPiece {
     return true;
   }
 
-
-  // validAdjacentMove: Checks that a and b are adjacent, close enough, and there is no piece in the way
+  /**
+   * Checks that a and b are adjacent, close enough, and there is no piece in the way
+   *
+   * @param a         the origin of the move
+   * @param b         the destination of the move
+   * @param board     the chessboard currently in play
+   * @param numSpaces the number of spaces the piece is allowed to move adjacently (either 1 or 8)
+   * @return          whether the move is valid or not
+   */
   boolean validAdjacentMove ( ChessSquare a, ChessSquare b, ChessBoard board, int numSpaces ) {
 
     int numRowsAbs = Math.abs( b.row - a.row );
@@ -67,7 +82,14 @@ public class ChessPiece {
 
   }
 
-  // validKnightMove: Checks that the move is legal
+  /**
+   * Checks that b is within the range of a for a knight
+   *
+   * @param a         the origin of the move
+   * @param b         the destination of the move
+   * @param board     the chessboard currently in play
+   * @return          whether the move is valid or not
+   */
   boolean validKnightMove( ChessSquare a, ChessSquare b, ChessBoard board ) {
     int numRowsAbs = Math.abs( b.row - a.row );
     int numColsAbs = Math.abs( b.col - a.col );
@@ -79,7 +101,14 @@ public class ChessPiece {
   }
 
 
-  // validMove: Checks that a move obeys the general rules of chess
+  /**
+   * Checks that a to b is a valid move generically
+   *
+   * @param a         the origin of the move
+   * @param b         the destination of the move
+   * @param board     the chessboard currently in play
+   * @return          whether the move is valid or not
+   */
   boolean validMove( ChessSquare a, ChessSquare b, ChessBoard board ) {
 
     if ( a.col == b.col && a.row == b.row ) return false; // Origin and destination are the same
