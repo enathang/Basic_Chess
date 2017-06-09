@@ -6,17 +6,13 @@ public class Knight extends ChessPiece {
   // String[] chars = {"♞","♘"}; ONLY USE IF UNICODE IS SUPPORTED
   boolean hasMoved = false;
 
-  Knight( int color ) {
+  Knight(int color) {
     super.color = color;
     super.symbol = chars[color];
   }
 
-
-  boolean validMove( ChessSquare a, ChessSquare b, ChessBoard board ) {
-
-    if ( super.validKnightMove (a, b, board) ) return true;
-
-    return false;
+  boolean validMove(ChessSquare a, ChessSquare b, ChessBoard board) {
+    return super.validKnightMove(a, b, board) ? true : false;
   }
 
 }

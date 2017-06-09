@@ -1,8 +1,4 @@
-
-// ChessSquare: The ChessBoard has 8x8 of these, which can hold a piece
 public class ChessSquare {
-
-  boolean open = true;
   ChessPiece piece = null;
   int row;
   int col;
@@ -10,6 +6,10 @@ public class ChessSquare {
   ChessSquare (int x, int y) {
     col = x;
     row = y;
+  }
+
+  boolean isOpen() {
+    return (piece == null) ? true : false;
   }
 
   void setPiece(ChessPiece p) {

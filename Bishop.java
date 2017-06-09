@@ -6,16 +6,13 @@ public class Bishop extends ChessPiece {
   // String[] chars = {"♗","♗"}; ONLY USE IF UNICODE IS SUPPORTED
   boolean hasMoved = false;
 
-  Bishop( int color ) {
+  Bishop(int color) {
     super.color = color;
     super.symbol = chars[color];
   }
 
-
-  boolean validMove( ChessSquare a, ChessSquare b, ChessBoard board ) {
-
-    if ( validDiagonalMove( a, b, board, 8) ) return true;
-
-    return false;
+  boolean validMove(ChessSquare a, ChessSquare b, ChessBoard board) {
+    return super.validDiagonalMove(a, b, board, 8) ? true : false;
   }
+
 }
