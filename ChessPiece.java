@@ -6,10 +6,12 @@ public class ChessPiece {
   String symbol; // Ascii character for that piece
 
   // returns if a is +, -, or 0
-  int getSign ( int a ) {
+  int getSign (int a) {
     if (a == 0) return 0; // to avoid a division by 0 error
     return a/Math.abs(a);
   }
+
+  boolean canCastle(ChessSquare a, ChessSquare b, ChessBoard board) {return true;}
 
   /**
    * Checks that a and b are diagonal, close enough, and there is no piece in the way

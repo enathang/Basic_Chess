@@ -12,6 +12,7 @@ public class Knight extends ChessPiece {
   }
 
   boolean validMove(ChessSquare a, ChessSquare b, ChessBoard board) {
+    if (!super.validMove(a, b, board)) return false;
     return super.validKnightMove(a, b, board) ? true : false;
   }
 

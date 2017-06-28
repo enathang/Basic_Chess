@@ -1,4 +1,5 @@
 public class ChessBoard {
+
   int boardSize = 8;
   ChessSquare[][] board = new ChessSquare[boardSize][boardSize];
   ChessSquare whiteKing; // Keeps track of where the kings are for convenience
@@ -12,37 +13,32 @@ public class ChessBoard {
     }
   }
 
+  boolean castle(ChessSquare a, ChessSquare b) {
+    int dir = (b.col<a.col) ? -1 : 1;
+    int rookRow = a.row;
+    int rookOrigCol = (dir==-1) ? 0 : boardSize-1;
+    int rookNewCol = (dir==-1) ? 2 : 4; // get rid of magic numbers
+
+    ChessSquare moveRookFrom = board[rookOrigCol][rookRow];
+    ChessSquare moveRookTo = board[rookNewCol][rookRow];
+
+    if (a.piece instanceof King && a.piece.canCastle(a, b, this)) {
+      if (moveRookFrom.piece instanceof Rook && moveRookFrom.piece.canCastle(moveRookFrom, moveRookTo, this)) {
+        ChessSquare[] rookMove = {moveRookFrom, moveRookTo};
+        movePiece(rookMove);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   // TODO
   boolean isCheckMate(int player, ChessBoard board) {
 
     // for each square adjacent to king,
     //   if valid move and not check return false;
     // else return true;
-
-    return false;
-  }
-
-  /**
-   * Returns if the player's king is in check
-   *
-   * @param player The player of the king
-   * @param board The current playing board
-   * @return true if the king is currently in check, false otherwise
-   */
-  boolean isCheck(int player, ChessBoard board) {
-    ChessSquare king = (player == 0) ? whiteKing : blackKing;
-
-    for (int i=0; i<8; i++) {
-      for (int j=0; j<8; j++) {
-        ChessSquare sq = board.board[i][j];
-        ChessPiece p = sq.piece;
-
-        if (p != null) {
-          if (p.color != player && p.validMove(sq, king, board)) return true;
-        }
-
-      }
-    }
 
     return false;
   }
@@ -58,8 +54,15 @@ public class ChessBoard {
     ChessSquare orig = move[0];
     ChessSquare dest = move[1];
 
-    dest.piece = orig.piece;
+    dest.setPiece(orig.piece);
     orig.piece = null;
+
+    // promote pawn if needed
+    if (dest.piece instanceof Pawn) {
+      if (dest.row==0 && dest.piece.color==1)           dest.setPiece(new Queen(1));
+      if (dest.row==boardSize-1 && dest.piece.color==0) dest.setPiece(new Queen(0));
+    }
+
   }
 
   /**

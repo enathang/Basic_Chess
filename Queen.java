@@ -12,6 +12,7 @@ public class Queen extends ChessPiece {
   }
 
   boolean validMove (ChessSquare a, ChessSquare b, ChessBoard board) {
+    if (!super.validMove(a, b, board)) return false;
     if (super.validDiagonalMove(a, b, board, 8)) return true;
     if (super.validAdjacentMove(a, b, board, 8)) return true;
 

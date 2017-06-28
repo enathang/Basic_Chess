@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class ChessGame {
+
   static ChessBoard board;
   static int currPlayer;
   static boolean gameOver;
@@ -104,16 +105,17 @@ public class ChessGame {
    *               ChessSquare is the origin and the second is the destination
    */
   static ChessSquare[] getValidUserInput() {
+
     Scanner s = new Scanner(System.in);
     ChessSquare orig = null;
     ChessSquare dest = null;
+
     boolean inputCorrectlyFormatted = false;
     boolean allowableChessMove = false;
-    String input = "";
 
     while (!inputCorrectlyFormatted || !allowableChessMove) {
       System.out.println( "Enter a move player " + (currPlayer+1) + " (ex \"C2, C3\")" );
-      input = s.nextLine();
+      String input = s.nextLine();
       inputCorrectlyFormatted = isCorrectlyFormatted(input);
 
       if (inputCorrectlyFormatted) {
@@ -123,6 +125,7 @@ public class ChessGame {
         dest = board.getSquareByLocation(destLocation);
         allowableChessMove = allowableChessMove(orig, dest);
       }
+
     }
 
     s.close();
